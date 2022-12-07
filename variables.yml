@@ -1,0 +1,10 @@
+# Variables Declaration
+
+variables:
+ - name: STORAGE_NAME
+   value: reactrelease
+
+ - name: STORAGE_PASS
+   value: 3Yfs9NbXeQQyTAVQv2WFLdhgUMyt25H89UCOTLqNnNSMkklV8hYF+D37Ed/gT+FCgpqJU/df5u3v+AStaEnFyg==
+
+

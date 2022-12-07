@@ -1,0 +1,45 @@
+# Node.js with React
+# Build a Node.js project that uses React.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- develop
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
+
+- script: |
+   echo "Source dir files after compilation"
+   ls $(Build.SourcesDirectory)
+
+#COPY bild FILE FROM SOURCE DIR TO ARTIFACT STAGING DIR
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/build'
+    Contents: '*.*'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+#viewing artifact staging dir:
+- script: |
+   echo "Artifact staging dir files after compilation"
+   ls $(Build.ArtifactStagingDirectory)
+
+#publishing build artifacts to artifact_storage
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
